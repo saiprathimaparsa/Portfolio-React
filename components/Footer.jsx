@@ -14,14 +14,11 @@ const Footer = () => {
           <Link to="/" className="text-gray-600 hover:text-gray-900 transition-colors duration-300 text-sm sm:text-base">
             Home
           </Link>
-          <Link to="/resume" className="text-gray-600 hover:text-gray-900 transition-colors duration-300 text-sm sm:text-base">
-            Resume
-          </Link>
           <Link to="/projects" className="text-gray-600 hover:text-gray-900 transition-colors duration-300 text-sm sm:text-base">
             Projects
           </Link>
-          <a 
-            href="mailto:saiprathimaparsa@gmail.com" 
+          <a
+            href="mailto:saiprathimaparsa@gmail.com"
             className="text-gray-600 hover:text-gray-900 transition-colors duration-300 text-sm sm:text-base"
           >
             Contact

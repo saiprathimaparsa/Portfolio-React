@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import colors from 'tailwindcss/colors';
+
 export default {
   content: [
     "./index.html",
@@ -12,7 +14,7 @@ export default {
         pacifico: ['Pacifico', 'cursive'],
       },
       colors: {
-        primary: 'var(--primary-color)',
+        primary: colors.indigo,
         secondary: 'var(--secondary-color)',
       },
     },

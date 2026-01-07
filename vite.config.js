@@ -9,13 +9,6 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-        },
-      },
-    },
     chunkSizeWarningLimit: 1000,
   },
   server: {
@@ -24,7 +17,9 @@ export default defineConfig({
     strictPort: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: process.env.NODE_ENV === 'production' 
+          ? 'https://prathimaportfolio.vercel.app' 
+          : 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
         ws: true,

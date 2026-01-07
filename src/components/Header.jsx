@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,11 +13,6 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location]);
 
   return (
     <>
@@ -37,50 +30,38 @@ const Header = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-transparent'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link to="/" className="text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors">
-              <h1 className="font-pacifico text-3xl">Prathima Parsa</h1>
-            </Link>
+          <div className="flex justify-end md:justify-center items-center h-16">
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8" role="navigation" aria-label="Main navigation">
-              <Link
-                to="/"
-                className={`text-sm font-medium transition-colors ${
-                  location.pathname === '/' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-900'
-                }`}
+              <a
+                href="#home"
+                className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
               >
                 Home
-              </Link>
-              <Link
-                to="/projects"
-                className={`text-sm font-medium transition-colors ${
-                  location.pathname === '/projects' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-900'
-                }`}
+              </a>
+              <a
+                href="#about"
+                className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                About
+              </a>
+              <a
+                href="#projects"
+                className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
               >
                 Projects
-              </Link>
-              <Link
-                to="/resume"
-                className={`text-sm font-medium transition-colors ${
-                  location.pathname === '/resume' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-900'
-                }`}
-              >
-                Resume
-              </Link>
-              <Link
-                to="/contact"
-                className={`text-sm font-medium transition-colors ${
-                  location.pathname === '/contact' ? 'text-gray-900' : 'text-gray-500 hover:text-gray-900'
-                }`}
+              </a>
+              <a
+                href="#contact"
+                className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
               >
                 Contact
-              </Link>
+              </a>
             </nav>
 
             {/* Mobile menu button */}
@@ -115,38 +96,34 @@ const Header = () => {
               className="md:hidden bg-white shadow-lg"
             >
               <div className="px-2 pt-2 pb-3 space-y-1">
-                <Link
-                  to="/"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    location.pathname === '/' ? 'text-gray-900 bg-gray-50' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
+                <a
+                  href="#home"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Home
-                </Link>
-                <Link
-                  to="/projects"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    location.pathname === '/projects' ? 'text-gray-900 bg-gray-50' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
+                </a>
+                <a
+                  href="#about"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About
+                </a>
+                <a
+                  href="#projects"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Projects
-                </Link>
-                <Link
-                  to="/resume"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    location.pathname === '/resume' ? 'text-gray-900 bg-gray-50' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
-                >
-                  Resume
-                </Link>
-                <Link
-                  to="/contact"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    location.pathname === '/contact' ? 'text-gray-900 bg-gray-50' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
+                </a>
+                <a
+                  href="#contact"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Contact
-                </Link>
+                </a>
               </div>
             </motion.div>
           )}
@@ -156,10 +133,9 @@ const Header = () => {
       {/* Hidden navbar for screen readers */}
       <nav className="sr-only" role="navigation" aria-label="Main navigation">
         <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/projects">Projects</Link></li>
-          <li><Link to="/resume">Resume</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
     </>

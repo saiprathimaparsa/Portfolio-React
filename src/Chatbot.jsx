@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -12,7 +12,7 @@ function QuizApp() {
   const [topic, setTopic] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [askedQuestions, setAskedQuestions] = useState(new Set());
+  const askedQuestionsRef = useRef([]);
   const [feedback, setFeedback] = useState(null);
   const [timeLeft, setTimeLeft] = useState(30); // 30 seconds per question
   const [timerActive, setTimerActive] = useState(false);
@@ -51,7 +51,7 @@ function QuizApp() {
     setQuestionNumber(1);
     setQuizOver(false);
     setError(null);
-    setAskedQuestions(new Set());
+    askedQuestionsRef.current = [];
     setFeedback(null);
     setTimeLeft(30);
     setTimerActive(false);
@@ -59,22 +59,21 @@ function QuizApp() {
     setQuestionHistory([]);
   };
 
-  const startQuiz = async (selectedTopic) => {
+  const startQuiz = async () => {
     try {
       setIsTransitioning(true);
       setError(null);
-      setTopic(selectedTopic);
       setScore(0);
       setQuestionNumber(1);
       setQuizOver(false);
       setSelectedOption(null);
-      setAskedQuestions(new Set());
+      askedQuestionsRef.current = [];
       setFeedback(null);
       setTimeLeft(30);
       setTimerActive(false);
       setShowExplanation(false);
       setQuestionHistory([]);
-      await fetchQuestion(selectedTopic);
+      await fetchQuestion();
     } catch (error) {
       setError('Failed to start quiz. Please try again.');
       console.error('Quiz start error:', error);
@@ -83,7 +82,7 @@ function QuizApp() {
     }
   };
 
-  const fetchQuestion = async (selectedTopic) => {
+  const fetchQuestion = async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -97,9 +96,11 @@ function QuizApp() {
         return;
       }
 
+      console.log('Sending request with askedQuestions:', askedQuestionsRef.current);
+
       const response = await axios.post('/api/chat', {
-        message: selectedTopic,
-        askedQuestions: Array.from(askedQuestions)
+        message: '',
+        askedQuestions: askedQuestionsRef.current
       }, {
         headers: {
           'Content-Type': 'application/json',
@@ -110,11 +111,17 @@ function QuizApp() {
         throw new Error('Invalid response format from server');
       }
 
-      setAskedQuestions(prev => new Set([...prev, response.data.question]));
+      // Add the new question to askedQuestions
+      if (!askedQuestionsRef.current.includes(response.data.question)) {
+        askedQuestionsRef.current.push(response.data.question);
+      }
+      
+      // Update current question
       setCurrentQuestion({
         ...response.data,
         correctAnswer: response.data.options[response.data.answerIndex]
       });
+
     } catch (error) {
       console.error('Question fetch error:', error);
       if (error.response?.status === 400 && error.response?.data?.error === 'Maximum number of questions reached') {
@@ -137,6 +144,14 @@ function QuizApp() {
     const isCorrect = option === currentQuestion.correctAnswer;
     setScore(prev => isCorrect ? prev + 1 : prev);
     
+    // Add to question history with user's answer
+    setQuestionHistory(prev => [...prev, {
+      ...currentQuestion,
+      userAnswer: option,
+      isCorrect: isCorrect,
+      correctAnswer: currentQuestion.correctAnswer
+    }]);
+    
     // Show feedback immediately
     setFeedback({
       isCorrect,
@@ -157,7 +172,7 @@ function QuizApp() {
     setSelectedOption(null);
     setFeedback(null);
     setTimerActive(false);
-    setTimer(30);
+    setTimeLeft(30);
     fetchQuestion();
   };
 
@@ -167,12 +182,12 @@ function QuizApp() {
     setQuizOver(false);
     setSelectedOption(null);
     setError(null);
-    setAskedQuestions(new Set());
+    askedQuestionsRef.current = [];
     setTimeLeft(30);
     setTimerActive(false);
     setShowExplanation(false);
     setQuestionHistory([]);
-    startQuiz(topic);
+    startQuiz();
   };
 
   const getProgressColor = () => {
@@ -205,7 +220,7 @@ function QuizApp() {
           }}>
             <span>←</span> Back to Home
           </Link>
-          <h1 style={{ margin: 0, fontSize: '1.5rem', color: '#2d3748' }}>Frontend QuickBot</h1>
+          <h1 style={{ margin: 0, fontSize: '1.5rem', color: '#2d3748' }}>QuizBot</h1>
           {quizOver && (
             <button
               onClick={restartQuiz}
@@ -254,6 +269,7 @@ function QuizApp() {
           </div>
         )}
 
+        {/* Remove topic selection, show Start Quiz button if quiz not started */}
         {!currentQuestion && !quizOver && !isLoading && (
           <div style={{
             textAlign: 'center',
@@ -262,33 +278,28 @@ function QuizApp() {
             borderRadius: '8px',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
           }}>
-            <h2 style={{ marginBottom: '1.5rem', color: '#2d3748' }}>Select a Topic</h2>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '1rem'
-            }}>
-              {['JavaScript', 'React', 'HTML', 'CSS'].map((topic) => (
-                <button
-                  key={topic}
-                  onClick={() => startQuiz(topic)}
-                  style={{
-                    padding: '1rem',
-                    backgroundColor: '#4299e1',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.2s',
-                    fontSize: '1rem'
-                  }}
-                  onMouseOver={(e) => e.target.style.backgroundColor = '#3182ce'}
-                  onMouseOut={(e) => e.target.style.backgroundColor = '#4299e1'}
-                >
-                  {topic}
-                </button>
-              ))}
-            </div>
+            <h2 style={{ marginBottom: '1.5rem', color: '#2d3748' }}>Frontend Knowledge Quiz</h2>
+            <p style={{ marginBottom: '2rem', color: '#4a5568' }}>
+              Test your knowledge across all major frontend technologies: JavaScript, React, HTML, CSS, and more!
+            </p>
+            <button
+              onClick={() => startQuiz()}
+              style={{
+                padding: '1rem 2rem',
+                backgroundColor: '#4299e1',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s',
+                fontSize: '1.1rem',
+                fontWeight: 'bold'
+              }}
+              onMouseOver={e => e.target.style.backgroundColor = '#3182ce'}
+              onMouseOut={e => e.target.style.backgroundColor = '#4299e1'}
+            >
+              Start Quiz
+            </button>
           </div>
         )}
 

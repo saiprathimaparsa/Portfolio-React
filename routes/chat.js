@@ -11,8 +11,8 @@ router.post('/', async (req, res) => {
     console.log('Received quiz request:', { 
       topic: message,
       askedQuestionsCount: askedQuestions.length,
-      body: req.body,
-      questionNumber: askedQuestions.length + 1 // Log the current question number
+      askedQuestions: askedQuestions,
+      questionNumber: askedQuestions.length + 1
     });
 
     if (!process.env.OPENAI_API_KEY) {
@@ -20,9 +20,8 @@ router.post('/', async (req, res) => {
       return res.status(500).json({ error: 'Server configuration error' });
     }
 
-    if (!message) {
-      return res.status(400).json({ error: 'Topic is required' });
-    }
+    // Allow empty message by defaulting to 'frontend development'
+    const quizTopic = message && message.trim() ? message : 'frontend development';
 
     // Check if we've reached the maximum number of questions
     if (askedQuestions.length >= 5) {
@@ -31,7 +30,7 @@ router.post('/', async (req, res) => {
     }
 
     const systemPrompt = `
-      You are a quiz generator. Generate a multiple-choice question about ${message}.
+      You are a quiz generator. Generate a multiple-choice question about ${quizTopic}.
       The question must have exactly 4 options, with one correct answer.
       Format your response as a JSON object with this exact structure:
       {
@@ -45,9 +44,11 @@ router.post('/', async (req, res) => {
       Provide a clear explanation that helps the user understand the concept better.
       
       IMPORTANT: Do not generate any of these questions that have already been asked:
-      ${askedQuestions.join('\n')}
+      ${askedQuestions.map(q => `- ${q}`).join('\n')}
       
       Generate a completely new and unique question that hasn't been asked before.
+      The question should be different from all previous questions in both content and structure.
+      Make sure to generate a question that is not similar to any of the previously asked questions.
     `;
 
     console.log('Sending request to OpenAI with prompt:', systemPrompt);
@@ -56,9 +57,9 @@ router.post('/', async (req, res) => {
       model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: `Generate a unique quiz question about ${message} that hasn't been asked before.` }
+        { role: "user", content: `Generate a unique quiz question about ${quizTopic} that hasn't been asked before. Make sure it's completely different from these previous questions: ${askedQuestions.join(', ')}` }
       ],
-      temperature: 0.7,
+      temperature: 0.9,
       max_tokens: 500
     };
 
@@ -71,11 +72,11 @@ router.post('/', async (req, res) => {
 
     let questionData;
     let retries = 0;
-    const maxRetries = 3;
+    const maxRetries = 5;
     const stringSimilarity = (a, b) => {
       if (!a || !b) return 0;
-      a = a.toLowerCase();
-      b = b.toLowerCase();
+      a = a.toLowerCase().replace(/[^a-z0-9]/g, '');
+      b = b.toLowerCase().replace(/[^a-z0-9]/g, '');
       if (a === b) return 1;
       const minLen = Math.min(a.length, b.length);
       let same = 0;
@@ -84,6 +85,7 @@ router.post('/', async (req, res) => {
       }
       return same / Math.max(a.length, b.length);
     };
+
     let isRepeat = false;
     do {
       const response = await axios.post(
@@ -127,10 +129,21 @@ router.post('/', async (req, res) => {
         throw new Error('Invalid response format from OpenAI');
       }
 
-      // Check for repeats using similarity
-      isRepeat = askedQuestions.some(q => stringSimilarity(q, questionData.question) > 0.8);
+      // Enhanced repeat detection
+      isRepeat = askedQuestions.some(q => {
+        const similarity = stringSimilarity(q, questionData.question);
+        console.log(`Similarity check with "${q}": ${similarity}`);
+        return similarity > 0.7;
+      });
+
+      if (isRepeat) {
+        console.log('Question too similar to previous questions, retrying...');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+
       retries++;
     } while (isRepeat && retries < maxRetries);
+
     if (isRepeat) {
       throw new Error('Generated question was too similar to previous questions after several attempts');
     }
@@ -138,11 +151,6 @@ router.post('/', async (req, res) => {
     if (!questionData.question || !Array.isArray(questionData.options) || questionData.options.length !== 4 || !questionData.explanation) {
       console.error('Invalid question format:', questionData);
       throw new Error('Invalid question format');
-    }
-
-    if (askedQuestions.includes(questionData.question)) {
-      console.error('Question already asked:', questionData.question);
-      throw new Error('Generated question was already asked');
     }
 
     res.json(questionData);
