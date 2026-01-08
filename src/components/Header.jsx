@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,11 +16,16 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Helper function to get correct link destination
+  const getLink = (hash) => {
+    return location.pathname === '/' ? hash : `/${hash}`;
+  };
+
   return (
     <>
       {/* Skip to main content link for keyboard users */}
       <a
-        href="#main-content"
+        href={getLink('#main-content')}
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-gray-900 text-white px-4 py-2 rounded-md z-50"
       >
         Skip to main content
@@ -39,25 +46,25 @@ const Header = () => {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8" role="navigation" aria-label="Main navigation">
               <a
-                href="#home"
+                href={getLink('#home')}
                 className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
               >
                 Home
               </a>
               <a
-                href="#about"
+                href={getLink('#about')}
                 className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
               >
                 About
               </a>
               <a
-                href="#projects"
+                href={getLink('#projects')}
                 className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
               >
                 Projects
               </a>
               <a
-                href="#contact"
+                href={getLink('#contact')}
                 className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
               >
                 Contact
@@ -97,28 +104,28 @@ const Header = () => {
             >
               <div className="px-2 pt-2 pb-3 space-y-1">
                 <a
-                  href="#home"
+                  href={getLink('#home')}
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Home
                 </a>
                 <a
-                  href="#about"
+                  href={getLink('#about')}
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   About
                 </a>
                 <a
-                  href="#projects"
+                  href={getLink('#projects')}
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Projects
                 </a>
                 <a
-                  href="#contact"
+                  href={getLink('#contact')}
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -133,9 +140,9 @@ const Header = () => {
       {/* Hidden navbar for screen readers */}
       <nav className="sr-only" role="navigation" aria-label="Main navigation">
         <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href={getLink('#home')}>Home</a></li>
+          <li><a href={getLink('#projects')}>Projects</a></li>
+          <li><a href={getLink('#contact')}>Contact</a></li>
         </ul>
       </nav>
     </>

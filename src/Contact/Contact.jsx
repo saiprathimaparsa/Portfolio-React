@@ -12,12 +12,22 @@ const ContactSection = () => {
     setIsSubmitting(true);
     setStatus({ type: '', message: '' });
 
+    // Debug: Check what values we're sending
+    console.log('EmailJS Debug:', {
+      serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      hasServiceId: !!import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      hasTemplateId: !!import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      hasPublicKey: !!import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    });
+
     emailjs
       .sendForm(
-        'service_8qg0q8p',
-        'template_8qg0q8p',
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         form.current,
-        '8qg0q8p'
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       )
       .then(
         (result) => {
@@ -103,7 +113,7 @@ const ContactSection = () => {
             </label>
             <input
               type="text"
-              name="user_name"
+              name="from_name"
               id="name"
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 py-3 px-4 min-h-[48px]"
@@ -117,7 +127,7 @@ const ContactSection = () => {
             </label>
             <input
               type="email"
-              name="user_email"
+              name="reply_to"
               id="email"
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 py-3 px-4 min-h-[48px]"

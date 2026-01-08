@@ -10,12 +10,27 @@ const projects = [
     skills: ["React", "Node.js", "Express", "OpenAI API", "Tailwind CSS", "Framer Motion"],
     link: "/chat"
   },
+
   {
-    id: 2,
-    title: "Portfolio Website",
-    description: "A modern portfolio website built with React and Node.js, featuring smooth animations and responsive design.",
-    skills: ["React", "Node.js", "Tailwind CSS", "Framer Motion", "EmailJS", "Vite", "Git/GitHub", "Vercel"],
-    link: "https://github.com/saiprathimaparsa/Portfolio-React"
+    id: 3,
+    title: "Rent vs Buy Decision Calculator",
+    description: "An interactive financial planning tool that helps users evaluate the cost of renting vs buying a home over time. Features real-time calculation, visualizing break-even points, and detailed financial forecasting inputs.",
+    skills: ["React", "Recharts", "Financial Modeling", "Tailwind CSS", "Framer Motion"],
+    link: "/projects/rent-vs-buy"
+  },
+  {
+    id: 4,
+    title: "Commute Cost Calculator",
+    description: "A tool to calculate the true cost of commuting by factoring in fuel, maintenance, transit fares, and the value of time lost. Provides monthly/yearly cost breakdowns and long-term projections.",
+    skills: ["React", "Recharts", "Analytics", "Tailwind CSS"],
+    link: "/projects/commute-calculator"
+  },
+  {
+    id: 5,
+    title: "Lifestyle Inflation Calculator",
+    description: "Visualizes the long-term impact of 'small' recurring expenses. Calculates true inflation-adjusted cost vs opportunity cost of investing to help users make smarter spending decisions.",
+    skills: ["React", "Recharts", "Financial Planning", "Tailwind CSS"],
+    link: "/projects/lifestyle-inflation"
   }
 ];
 
@@ -77,6 +92,17 @@ const ProjectsSection = () => {
                   ))}
                 </div>
               </div>
+
+              {project.image && (
+                <div className="mb-6 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
+                  <img
+                    src={project.image}
+                    alt={`${project.title} Preview`}
+                    className="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+              )}
+
               {project.link && (
                 <div className="mt-auto">
                   <Link
