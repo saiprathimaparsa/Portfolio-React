@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "@emailjs/browser": "^4.1.0",
     "@heroicons/react": "^2.2.0",
     "@vitejs/plugin-react": "^4.2.1",
