@@ -21,6 +21,20 @@ const Header = () => {
     return location.pathname === '/' ? hash : `/${hash}`;
   };
 
+  const handleMobileNavClick = (sectionId) => {
+    setIsMobileMenuOpen(false);
+    if (location.pathname === '/') {
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+    } else {
+      window.location.href = `/#${sectionId}`;
+    }
+  };
+
   return (
     <>
       {/* Skip to main content link for keyboard users */}
@@ -63,12 +77,6 @@ const Header = () => {
               >
                 Projects
               </a>
-              <a
-                href={getLink('#contact')}
-                className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
-              >
-                Contact
-              </a>
             </nav>
 
             {/* Mobile menu button */}
@@ -103,34 +111,24 @@ const Header = () => {
               className="md:hidden bg-white shadow-lg"
             >
               <div className="px-2 pt-2 pb-3 space-y-1">
-                <a
-                  href={getLink('#home')}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                <button
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={() => handleMobileNavClick('home')}
                 >
                   Home
-                </a>
-                <a
-                  href={getLink('#about')}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                </button>
+                <button
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={() => handleMobileNavClick('about')}
                 >
                   About
-                </a>
-                <a
-                  href={getLink('#projects')}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                </button>
+                <button
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={() => handleMobileNavClick('projects')}
                 >
                   Projects
-                </a>
-                <a
-                  href={getLink('#contact')}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact
-                </a>
+                </button>
               </div>
             </motion.div>
           )}
@@ -142,7 +140,6 @@ const Header = () => {
         <ul>
           <li><a href={getLink('#home')}>Home</a></li>
           <li><a href={getLink('#projects')}>Projects</a></li>
-          <li><a href={getLink('#contact')}>Contact</a></li>
         </ul>
       </nav>
     </>

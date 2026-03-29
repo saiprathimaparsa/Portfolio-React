@@ -50,7 +50,7 @@ const ContactSection = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col justify-center h-full">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
       <div className="text-center mb-8">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -116,7 +116,7 @@ const ContactSection = () => {
               name="from_name"
               id="name"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 py-3 px-4 min-h-[48px]"
+              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 py-3 px-4 min-h-[48px]"
               aria-label="Your name"
             />
           </div>
@@ -130,7 +130,7 @@ const ContactSection = () => {
               name="reply_to"
               id="email"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 py-3 px-4 min-h-[48px]"
+              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 py-3 px-4 min-h-[48px]"
               aria-label="Your email address"
             />
           </div>
@@ -144,7 +144,7 @@ const ContactSection = () => {
               id="message"
               rows={4}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 py-3 px-4 min-h-[100px]"
+              className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 py-3 px-4 min-h-[100px]"
               aria-label="Your message"
             />
           </div>
