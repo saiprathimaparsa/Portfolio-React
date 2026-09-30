@@ -12,6 +12,13 @@ const projects = [
   },
 
   {
+    id: 2,
+    title: "AI Visibility Tester",
+    description: "A JavaScript bookmarklet that audits any webpage for AI-crawler visibility — 36 checks across schema, meta tags, content signals and crawl files (robots.txt, llms.txt), with a live on-page demo and a Contentful sidebar-app prototype.",
+    skills: ["JavaScript", "Bookmarklet", "Contentful", "GEO/AEO", "Web APIs"],
+    link: "/projects/ai-visibility"
+  },
+  {
     id: 3,
     title: "Rent vs Buy Decision Calculator",
     description: "An interactive financial planning tool that helps users evaluate the cost of renting vs buying a home over time. Features real-time calculation, visualizing break-even points, and detailed financial forecasting inputs.",
