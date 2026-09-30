@@ -3,6 +3,7 @@ import Home from './Home';
 import RentVsBuyCalculator from './projects/RentVsBuyCalculator';
 import CommuteCostCalculator from './projects/CommuteCostCalculator';
 import LifestyleInflationCalculator from './projects/LifestyleInflationCalculator';
+import AIVisibilityTester from './projects/AIVisibilityTester';
 import QuizApp from './Chatbot';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/projects/ai-visibility" element={<AIVisibilityTester />} />
         <Route path="/projects/rent-vs-buy" element={<RentVsBuyCalculator />} />
         <Route path="/projects/commute-calculator" element={<CommuteCostCalculator />} />
         <Route path="/projects/lifestyle-inflation" element={<LifestyleInflationCalculator />} />
