@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -77,6 +77,12 @@ const Header = () => {
               >
                 Projects
               </a>
+              <Link
+                to="/blog"
+                className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                Blog
+              </Link>
             </nav>
 
             {/* Mobile menu button */}
@@ -129,6 +135,13 @@ const Header = () => {
                 >
                   Projects
                 </button>
+                <Link
+                  to="/blog"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Blog
+                </Link>
               </div>
             </motion.div>
           )}
@@ -140,6 +153,7 @@ const Header = () => {
         <ul>
           <li><a href={getLink('#home')}>Home</a></li>
           <li><a href={getLink('#projects')}>Projects</a></li>
+          <li><Link to="/blog">Blog</Link></li>
         </ul>
       </nav>
     </>
