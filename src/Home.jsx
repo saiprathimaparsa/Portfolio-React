@@ -4,30 +4,21 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ProjectsSection from './Projects';
 import AboutSection from './About';
+import { FaReact, FaGitAlt, FaJava, FaAws } from 'react-icons/fa';
+import { SiNextdotjs, SiGrafana, SiOpenapiinitiative } from 'react-icons/si';
+import { VscAzure } from 'react-icons/vsc';
+import { SparklesIcon } from '@heroicons/react/24/outline';
 
-const codeSymbols = [
-  { symbol: '</>', left: '8%',  top: '12%', dur: 5.0, delay: 0.0 },
-  { symbol: '{ }', left: '82%', top: '18%', dur: 6.5, delay: 0.8 },
-  { symbol: '[ ]', left: '14%', top: '72%', dur: 4.5, delay: 1.6 },
-  { symbol: '()',  left: '78%', top: '65%', dur: 7.0, delay: 0.4 },
-  { symbol: '=>',  left: '50%', top: '82%', dur: 5.5, delay: 2.0 },
-  { symbol: '##',  left: '88%', top: '42%', dur: 6.0, delay: 1.2 },
-];
-
-const floatingDots = [
-  { left: '22%', top: '20%', dur: 4.0, delay: 0.0, size: 'w-2 h-2',     color: 'bg-indigo-300/50' },
-  { left: '72%', top: '28%', dur: 5.5, delay: 0.6, size: 'w-3 h-3',     color: 'bg-rose-300/40'   },
-  { left: '38%', top: '76%', dur: 3.8, delay: 1.2, size: 'w-2 h-2',     color: 'bg-teal-300/50'   },
-  { left: '60%', top: '15%', dur: 6.0, delay: 0.3, size: 'w-1.5 h-1.5', color: 'bg-amber-300/50'  },
-  { left: '12%', top: '50%', dur: 4.8, delay: 1.8, size: 'w-2 h-2',     color: 'bg-purple-300/50' },
-  { left: '85%', top: '78%', dur: 5.2, delay: 0.9, size: 'w-3 h-3',     color: 'bg-cyan-300/40'   },
-  { left: '48%', top: '88%', dur: 4.2, delay: 2.4, size: 'w-1.5 h-1.5', color: 'bg-pink-300/50'   },
-];
-
-const miniSquares = [
-  { left: '30%', top: '10%', dur: 8, delay: 0.5 },
-  { left: '68%', top: '55%', dur: 7, delay: 2.0 },
-  { left: '5%',  top: '85%', dur: 9, delay: 1.0 },
+const techChips = [
+  { label: 'React',         Icon: FaReact,             color: '#087ea4', left: '6%',  top: '14%', dur: 5.0, delay: 0.0, mobile: true  },
+  { label: 'Next.js',       Icon: SiNextdotjs,         color: '#000000', left: '84%', top: '12%', dur: 6.5, delay: 0.8, mobile: true  },
+  { label: 'Git',           Icon: FaGitAlt,            color: '#f05033', left: '12%', top: '64%', dur: 4.5, delay: 1.6, mobile: false },
+  { label: 'Java',          Icon: FaJava,              color: '#e76f00', left: '87%', top: '58%', dur: 7.0, delay: 0.4, mobile: false },
+  { label: 'REST APIs',     Icon: SiOpenapiinitiative, color: '#6ba539', left: '4%',  top: '40%', dur: 5.5, delay: 2.0, mobile: false },
+  { label: 'Gen AI',        Icon: SparklesIcon,        color: '#7c3aed', left: '89%', top: '34%', dur: 6.0, delay: 1.2, mobile: true  },
+  { label: 'AWS',           Icon: FaAws,               color: '#ff9900', left: '16%', top: '86%', dur: 5.2, delay: 0.9, mobile: false },
+  { label: 'Azure',         Icon: VscAzure,            color: '#0078d4', left: '72%', top: '85%', dur: 4.2, delay: 2.4, mobile: false },
+  { label: 'Observability', Icon: SiGrafana,           color: '#f46800', left: '56%', top: '7%',  dur: 6.8, delay: 0.6, mobile: false },
 ];
 
 const Home = () => {
@@ -58,39 +49,18 @@ const Home = () => {
             className="absolute top-1/2 right-4 w-40 h-40 rounded-full bg-gradient-to-bl from-teal-100/50 to-cyan-100/30 blur-2xl"
           />
 
-          {/* Floating code symbols */}
-          {codeSymbols.map(({ symbol, left, top, dur, delay }, i) => (
-            <motion.span
-              key={i}
-              animate={{ y: [0, -14, 0], opacity: [0.18, 0.45, 0.18], rotate: [0, 6, 0] }}
+          {/* Floating technology logos */}
+          {techChips.map(({ label, Icon, color, left, top, dur, delay, mobile }) => (
+            <motion.div
+              key={label}
+              animate={{ y: [0, -12, 0], opacity: [0.9, 1, 0.9] }}
               transition={{ duration: dur, repeat: Infinity, ease: "easeInOut", delay }}
-              className="absolute font-mono text-sm font-semibold text-gray-400 select-none"
+              className={`absolute ${mobile ? 'flex' : 'hidden md:flex'} items-center gap-1.5 rounded-full bg-white border border-gray-200 shadow-md px-3 py-1.5 select-none`}
               style={{ left, top }}
             >
-              {symbol}
-            </motion.span>
-          ))}
-
-          {/* Small floating dots */}
-          {floatingDots.map(({ left, top, dur, delay, size, color }, i) => (
-            <motion.div
-              key={i}
-              animate={{ y: [0, -16, 0], opacity: [0.4, 0.9, 0.4], scale: [1, 1.3, 1] }}
-              transition={{ duration: dur, repeat: Infinity, ease: "easeInOut", delay }}
-              className={`absolute rounded-full ${size} ${color}`}
-              style={{ left, top }}
-            />
-          ))}
-
-          {/* Drifting mini squares */}
-          {miniSquares.map(({ left, top, dur, delay }, i) => (
-            <motion.div
-              key={i}
-              animate={{ y: [0, -20, 0], rotate: [0, 45, 0], opacity: [0.12, 0.3, 0.12] }}
-              transition={{ duration: dur, repeat: Infinity, ease: "easeInOut", delay }}
-              className="absolute w-4 h-4 border border-gray-400/40 rounded-sm"
-              style={{ left, top }}
-            />
+              <Icon style={{ color }} className="text-xl shrink-0" />
+              <span className="text-xs font-semibold text-gray-800 whitespace-nowrap">{label}</span>
+            </motion.div>
           ))}
         </div>
 
