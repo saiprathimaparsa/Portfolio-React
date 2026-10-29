@@ -4,21 +4,50 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ProjectsSection from './Projects';
 import AboutSection from './About';
-import { FaReact, FaGitAlt, FaJava, FaAws } from 'react-icons/fa';
-import { SiNextdotjs, SiGrafana, SiOpenapiinitiative } from 'react-icons/si';
+import { FaReact, FaGitAlt, FaJava, FaAws, FaSalesforce, FaHtml5 } from 'react-icons/fa';
+import {
+  SiNextdotjs, SiGrafana, SiOpenapiinitiative, SiTypescript, SiJavascript, SiAngular,
+  SiNodedotjs, SiExpress, SiDotnet, SiPython, SiContentful, SiGraphql, SiTailwindcss,
+  SiSass, SiMui, SiCss, SiJest, SiJenkins, SiGithubactions, SiBitbucket, SiJira,
+  SiCursor, SiGithubcopilot, SiAnthropic,
+} from 'react-icons/si';
 import { VscAzure } from 'react-icons/vsc';
 import { SparklesIcon } from '@heroicons/react/24/outline';
 
-const techChips = [
-  { label: 'React',         Icon: FaReact,             color: '#087ea4', left: '6%',  top: '14%', dur: 5.0, delay: 0.0, mobile: true  },
-  { label: 'Next.js',       Icon: SiNextdotjs,         color: '#000000', left: '84%', top: '12%', dur: 6.5, delay: 0.8, mobile: true  },
-  { label: 'Git',           Icon: FaGitAlt,            color: '#f05033', left: '12%', top: '64%', dur: 4.5, delay: 1.6, mobile: false },
-  { label: 'Java',          Icon: FaJava,              color: '#e76f00', left: '87%', top: '58%', dur: 7.0, delay: 0.4, mobile: false },
-  { label: 'REST APIs',     Icon: SiOpenapiinitiative, color: '#6ba539', left: '4%',  top: '40%', dur: 5.5, delay: 2.0, mobile: false },
-  { label: 'Gen AI',        Icon: SparklesIcon,        color: '#7c3aed', left: '89%', top: '34%', dur: 6.0, delay: 1.2, mobile: true  },
-  { label: 'AWS',           Icon: FaAws,               color: '#ff9900', left: '16%', top: '86%', dur: 5.2, delay: 0.9, mobile: false },
-  { label: 'Azure',         Icon: VscAzure,            color: '#0078d4', left: '72%', top: '85%', dur: 4.2, delay: 2.4, mobile: false },
-  { label: 'Observability', Icon: SiGrafana,           color: '#f46800', left: '56%', top: '7%',  dur: 6.8, delay: 0.6, mobile: false },
+// Logos only — the full stack from Prathima's resume, drifting faintly across the hero.
+const techLogos = [
+  { label: 'React',            Icon: FaReact,             color: '#087ea4', left: '4%',  top: '9%',  size: 'text-4xl', dur: 6.0, delay: 0.0 },
+  { label: 'TypeScript',       Icon: SiTypescript,        color: '#3178c6', left: '24%', top: '6%',  size: 'text-3xl', dur: 7.0, delay: 0.7 },
+  { label: 'Salesforce',       Icon: FaSalesforce,        color: '#00a1e0', left: '45%', top: '10%', size: 'text-4xl', dur: 5.5, delay: 1.4 },
+  { label: 'AWS',              Icon: FaAws,               color: '#ff9900', left: '66%', top: '7%',  size: 'text-4xl', dur: 6.5, delay: 0.3 },
+  { label: 'Next.js',          Icon: SiNextdotjs,         color: '#111111', left: '86%', top: '9%',  size: 'text-4xl', dur: 5.8, delay: 1.0 },
+  { label: 'JavaScript',       Icon: SiJavascript,        color: '#c7a008', left: '12%', top: '27%', size: 'text-3xl', dur: 6.2, delay: 1.8 },
+  { label: 'Contentful',       Icon: SiContentful,        color: '#2478cc', left: '33%', top: '25%', size: 'text-3xl', dur: 7.4, delay: 0.5 },
+  { label: 'Gen AI',           Icon: SparklesIcon,        color: '#7c3aed', left: '55%', top: '28%', size: 'text-4xl', dur: 5.2, delay: 2.1 },
+  { label: 'Node.js',          Icon: SiNodedotjs,         color: '#339933', left: '76%', top: '26%', size: 'text-4xl', dur: 6.8, delay: 1.2 },
+  { label: 'Git',              Icon: FaGitAlt,            color: '#f05033', left: '93%', top: '30%', size: 'text-3xl', dur: 5.6, delay: 0.9 },
+  { label: 'Angular',          Icon: SiAngular,           color: '#dd1b16', left: '3%',  top: '45%', size: 'text-4xl', dur: 7.2, delay: 0.2 },
+  { label: 'GraphQL',          Icon: SiGraphql,           color: '#e10098', left: '22%', top: '47%', size: 'text-3xl', dur: 6.4, delay: 1.6 },
+  { label: 'Java',             Icon: FaJava,              color: '#e76f00', left: '43%', top: '44%', size: 'text-4xl', dur: 5.9, delay: 0.8 },
+  { label: 'GitHub Copilot',   Icon: SiGithubcopilot,     color: '#24292f', left: '63%', top: '46%', size: 'text-3xl', dur: 7.1, delay: 2.4 },
+  { label: 'REST APIs',        Icon: SiOpenapiinitiative, color: '#6ba539', left: '83%', top: '45%', size: 'text-3xl', dur: 6.1, delay: 0.4 },
+  { label: 'Tailwind CSS',     Icon: SiTailwindcss,       color: '#06b6d4', left: '10%', top: '63%', size: 'text-4xl', dur: 5.4, delay: 1.1 },
+  { label: 'Python',           Icon: SiPython,            color: '#3776ab', left: '31%', top: '65%', size: 'text-3xl', dur: 6.9, delay: 0.6 },
+  { label: '.NET',             Icon: SiDotnet,            color: '#512bd4', left: '52%', top: '62%', size: 'text-4xl', dur: 7.3, delay: 1.9 },
+  { label: 'Azure',            Icon: VscAzure,            color: '#0078d4', left: '72%', top: '64%', size: 'text-3xl', dur: 5.7, delay: 0.1 },
+  { label: 'Observability',    Icon: SiGrafana,           color: '#f46800', left: '90%', top: '62%', size: 'text-3xl', dur: 6.6, delay: 1.5 },
+  { label: 'HTML5',            Icon: FaHtml5,             color: '#e34f26', left: '6%',  top: '82%', size: 'text-3xl', dur: 6.3, delay: 2.2 },
+  { label: 'Jest',             Icon: SiJest,              color: '#c21325', left: '26%', top: '84%', size: 'text-3xl', dur: 5.3, delay: 0.0 },
+  { label: 'Cursor',           Icon: SiCursor,            color: '#111111', left: '47%', top: '81%', size: 'text-3xl', dur: 7.0, delay: 1.3 },
+  { label: 'Jenkins',          Icon: SiJenkins,           color: '#d24939', left: '67%', top: '83%', size: 'text-3xl', dur: 6.0, delay: 0.7 },
+  { label: 'Jira',             Icon: SiJira,              color: '#0052cc', left: '86%', top: '81%', size: 'text-3xl', dur: 5.5, delay: 1.7 },
+  { label: 'Sass',             Icon: SiSass,              color: '#cc6699', left: '16%', top: '93%', size: 'text-2xl', dur: 6.7, delay: 0.9 },
+  { label: 'Material UI',      Icon: SiMui,               color: '#007fff', left: '37%', top: '94%', size: 'text-2xl', dur: 5.9, delay: 2.0 },
+  { label: 'CSS',              Icon: SiCss,               color: '#663399', left: '57%', top: '93%', size: 'text-2xl', dur: 7.5, delay: 0.4 },
+  { label: 'GitHub Actions',   Icon: SiGithubactions,     color: '#2088ff', left: '77%', top: '94%', size: 'text-2xl', dur: 6.2, delay: 1.0 },
+  { label: 'Bitbucket',        Icon: SiBitbucket,         color: '#0052cc', left: '93%', top: '92%', size: 'text-2xl', dur: 5.6, delay: 1.5 },
+  { label: 'Anthropic',        Icon: SiAnthropic,         color: '#d97757', left: '50%', top: '16%', size: 'text-2xl', dur: 6.4, delay: 2.6 },
+  { label: 'Express',          Icon: SiExpress,           color: '#222222', left: '68%', top: '17%', size: 'text-2xl', dur: 7.2, delay: 0.2 },
 ];
 
 const Home = () => {
@@ -49,18 +78,18 @@ const Home = () => {
             className="absolute top-1/2 right-4 w-40 h-40 rounded-full bg-gradient-to-bl from-teal-100/50 to-cyan-100/30 blur-2xl"
           />
 
-          {/* Floating technology logos */}
-          {techChips.map(({ label, Icon, color, left, top, dur, delay, mobile }) => (
-            <motion.div
+          {/* Floating technology logos — faint, logos only, across the whole hero */}
+          {techLogos.map(({ label, Icon, color, left, top, size, dur, delay }) => (
+            <motion.span
               key={label}
-              animate={{ y: [0, -12, 0], opacity: [0.9, 1, 0.9] }}
+              title={label}
+              animate={{ y: [0, -10, 0], opacity: [0.32, 0.52, 0.32], rotate: [0, 3, 0] }}
               transition={{ duration: dur, repeat: Infinity, ease: "easeInOut", delay }}
-              className={`absolute ${mobile ? 'flex' : 'hidden md:flex'} items-center gap-1.5 rounded-full bg-white border border-gray-200 shadow-md px-3 py-1.5 select-none`}
-              style={{ left, top }}
+              className={`absolute ${size} select-none`}
+              style={{ left, top, color }}
             >
-              <Icon style={{ color }} className="text-xl shrink-0" />
-              <span className="text-xs font-semibold text-gray-800 whitespace-nowrap">{label}</span>
-            </motion.div>
+              <Icon />
+            </motion.span>
           ))}
         </div>
 
