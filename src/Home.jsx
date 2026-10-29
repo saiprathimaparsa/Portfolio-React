@@ -108,10 +108,10 @@ const Home = () => {
                     Hey there,
                   </p>
                   <p className="text-gray-600 leading-relaxed mb-6 text-left text-base sm:text-lg md:text-xl lg:text-2xl">
-                    <strong>I&apos;m Prathima — a front-end developer who enjoys building clean, intuitive, and responsive web experiences.</strong>
+                    <strong>I&apos;m Prathima — I build clean, accessible websites with React, and I&apos;ve worked across the full stack, so I can take a feature from idea to interface to data.</strong>
                   </p>
                   <p className="text-gray-600 leading-relaxed mb-6 text-left text-base sm:text-lg md:text-xl lg:text-2xl">
-                    I work primarily with React and love turning ideas into thoughtful interfaces that feel effortless to use.
+                    Lately I&apos;m into AI and agentic workflows, and I bring the soft skills too: planning, keeping a team moving, and clearing blockers. I&apos;m working toward becoming a product engineer, and building great websites is my thing.
                   </p>
                 </div>
               </motion.div>
